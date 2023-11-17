@@ -1,6 +1,8 @@
 
 # Cryptocurrency Price Checker with Visualization
 
+![Cryptocurrency Price Chart](https://files.oaiusercontent.com/file-3b3DByS36q4f1jDyWUZ5lJc5?se=2023-11-17T23%3A49%3A23Z&sp=r&sv=2021-08-06&sr=b&rscc=max-age%3D31536000%2C%20immutable&rscd=attachment%3B%20filename%3D60a73db7-098f-4c13-af0f-8edea629f4b8.webp&sig=iNzzdxM/JsLKtKasRFRVMPoBU/F5Msgx0Sj3laQkIhE%3D)
+
 A Go-based application that fetches and displays cryptocurrency prices using the CoinGecko API. This project demonstrates HTTP requests, JSON parsing, caching mechanisms, and data visualization in Go.
 
 ## Features
