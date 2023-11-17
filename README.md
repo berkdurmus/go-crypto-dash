@@ -75,11 +75,11 @@ This application supports two types of visualizations:
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://github.com/[your-username]/crypto-price-checker/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.md](https://github.com/[berkdurmus]/crypto-price-checker/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Authors
 
-- **[Your Name](https://github.com/[your-username])** - *Initial work*
+- **[Berk Durmus](https://github.com/[berkdurmus])** - *Initial work*
 
 ## License
 
