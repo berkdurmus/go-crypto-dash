@@ -90,3 +90,14 @@ func main() {
 	printPricesCSV(prices) // Export to CSV
 	// plotPrices(prices) // Uncomment to create a plot
 }
+
+func exportData(prices map[string]float64, format string) {
+	switch format {
+	case "csv":
+		printPricesCSV(prices)
+	case "json":
+		// Implement JSON export functionality
+	default:
+		log.Fatalf("Unsupported export format: %s", format)
+	}
+}
