@@ -40,3 +40,33 @@ func (c *CoinGeckoClient) GetCoinsPrice(coinIDs []string, currency string) (map[
 	}
 	return prices, nil
 }
+
+func (c *CoinGeckoClient) GetHistoricalPrice(coinID, currency, date string) (float64, error) {
+    resp, err := c.httpClient.Get(fmt.Sprintf("%s/coins/%s/history?date=%s&localization=false", baseURL, coinID, date))
+    if err != nil {
+        return 0, err
+    }
+    defer resp.Body.Close()
+
+    var result map[string]interface{}
+    if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
+        return 0, err
+    }
+
+    marketData, ok := result["market_data"].(map[string]interface{})
+    if !ok {
+        return 0, fmt.Errorf("market data not available for %s", coinID)
+    }
+
+    currentPrice, ok := marketData["current_price"].(map[string]interface{})
+    if !ok {
+        return 0, fmt.Errorf("current price data not available for %s", coinID)
+    }
+
+    price, ok := currentPrice[currency].(float64)
+    if !ok {
+        return 0, fmt.Errorf("price information for %s in %s not available", coinID, currency)
+    }
+    return price, nil
+}
+
