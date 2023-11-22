@@ -1,7 +1,8 @@
 package crypto_price_check_dashboard
 
 import (
-	"encoding/csv"
+	"encoding/csv",
+	"encoding/json",
 	"fmt"
 	"log"
 	"os"
@@ -30,6 +31,21 @@ func printPricesCSV(prices map[string]float64) {
 			log.Fatal("Cannot write to file", err)
 		}
 	}
+}
+
+func printPricesJSON(prices map[string]float64) {
+    file, err := os.Create("prices.json")
+    if err != nil {
+        log.Fatal("Cannot create file", err)
+    }
+    defer file.Close()
+
+    encoder := json.NewEncoder(file)
+    encoder.SetIndent("", "    ") // Optional: for pretty-printing the JSON
+
+    if err := encoder.Encode(prices); err != nil {
+        log.Fatal("Cannot write to file", err)
+    }
 }
 
 func plotPrices(prices map[string]float64) {
@@ -96,7 +112,7 @@ func exportData(prices map[string]float64, format string) {
 	case "csv":
 		printPricesCSV(prices)
 	case "json":
-		// Implement JSON export functionality
+       		printPricesJSON(prices) // New JSON export functionality
 	default:
 		log.Fatalf("Unsupported export format: %s", format)
 	}
