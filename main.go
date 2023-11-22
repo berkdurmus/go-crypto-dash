@@ -5,7 +5,9 @@ import (
 	"encoding/json",
 	"fmt"
 	"log"
-	"os"
+	"os",
+	"net/http",
+        "github.com/gorilla/websocket"
 )
 
 import (
@@ -14,6 +16,32 @@ import (
 	"gonum.org/v1/plot/vg"
 	"strings"
 )
+
+var upgrader = websocket.Upgrader{
+    ReadBufferSize:  1024,
+    WriteBufferSize: 1024,
+}
+func handleConnections(w http.ResponseWriter, r *http.Request) {
+    // Upgrade initial GET request to a websocket
+    ws, err := upgrader.Upgrade(w, r, nil)
+    if err != nil {
+        log.Fatal(err)
+    }
+    defer ws.Close()
+
+    // TODO: Consider listening for messages from the WebSocket, if necessary.
+
+    // Main loop for sending data
+    for {
+        prices, _ := // fetch the latest prices
+        err := ws.WriteJSON(prices)
+        if err != nil {
+            log.Printf("error: %v", err)
+            break
+        }
+        time.Sleep(time.Second * 10) // Update interval
+    }
+}
 
 func printPricesCSV(prices map[string]float64) {
 	file, err := os.Create("prices.csv")
@@ -105,6 +133,16 @@ func main() {
 	cache.Set(cacheKey, prices)
 	printPricesCSV(prices) // Export to CSV
 	// plotPrices(prices) // Uncomment to create a plot
+
+	 // Set up WebSocket route
+	    http.HandleFunc("/ws", handleConnections)
+	
+	    // Start the server on localhost and log errors
+	    log.Println("http server started on :8000")
+	    err := http.ListenAndServe(":8000", nil)
+	    if err != nil {
+	        log.Fatal("ListenAndServe: ", err)
+	    }
 }
 
 func exportData(prices map[string]float64, format string) {
